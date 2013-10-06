@@ -1,0 +1,7 @@
+---
+name: haproxy
+packages:
+- haproxy
+templates:
+  haproxy.init.erb:   bin/haproxy.init
+  haproxy.config.erb: haproxy.config

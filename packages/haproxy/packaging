@@ -1,0 +1,13 @@
+# abort script on any command that exit with a non zero value
+set -e
+
+. /var/vcap/packages/packages/enable
+
+tar xzf haproxy/haproxy-1.4.24.tar.gz
+cd haproxy-1.4.24
+make TARGET=linux2628
+mkdir ${BOSH_INSTALL_TARGET}/bin
+cp haproxy ${BOSH_INSTALL_TARGET}/bin/
+chmod 755 ${BOSH_INSTALL_TARGET}/bin/haproxy
+
+. gen_enable.sh

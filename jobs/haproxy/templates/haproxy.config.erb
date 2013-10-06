@@ -1,0 +1,18 @@
+global
+	daemon
+	user vcap
+	group vcap
+	maxconn 64000
+	spread-checks 4
+
+defaults
+	timeout connect 10000ms
+
+frontend http-in 
+	bind :80
+	default_backend http-servers
+
+backend http-router
+	mode tcp
+	balance roundrobin
+        server node0 10.244.0.22:80 check inter 5000

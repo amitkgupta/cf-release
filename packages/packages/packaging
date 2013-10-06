@@ -1,0 +1,7 @@
+# abort script on any command that exit with a non zero value
+set -e
+
+mkdir ${BOSH_INSTALL_TARGET}/bin
+cp packages/gen_enable.sh ${BOSH_INSTALL_TARGET}/bin
+. packages/gen_enable.sh
+
