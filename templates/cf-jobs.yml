@@ -28,6 +28,17 @@ meta:
 
 
 jobs:
+  - name: ha_proxy_z1
+    template: haproxy
+    instances: 1
+    resource_pool: ha_proxy_z1
+    networks:
+      - name: cf1
+        static_ips: (( merge ))
+    properties:  
+      networks: (( meta.networks.z1 ))
+      syslog_aggregator: (( meta.syslog.z1 ))
+
   - name: nats_z2
     template: nats
     instances: 1
@@ -305,7 +316,7 @@ properties:
     deny_networks: (( merge || [] ))
     allow_networks: (( merge || [] ))
     kernel_network_tuning_enabled: true
-    directory_server_protocol: https
+    directory_server_protocol: http
     evacuation_delay: 115
 
   loggregator:

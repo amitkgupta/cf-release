@@ -5,7 +5,7 @@ meta:
 
 
 properties:
-  domain: (( jobs.router_z1.networks.cf1.static_ips.[0] ".xip.io" ))
+  domain: aguptalite.cf-app.com
 
   disk_quota_enabled: false
 
@@ -151,51 +151,56 @@ properties:
         citext: true
 
 jobs:
+  - name: ha_proxy_z1
+    instances: 1
+    networks:
+      - name: cf1
+        static_ips: (( static_ips(0) ))
   # specify nats static IP
   - name: nats_z2
     instances: 1
     networks:
       - name: cf2
-        static_ips: (( static_ips(1) ))
+        static_ips: (( static_ips(2) ))
 
   # set up static IP for loggregator trafficcontroller
   - name: loggregator_trafficcontroller_z1
     instances: 1
     networks:
       - name: cf1
-        static_ips: (( static_ips(2) ))
+        static_ips: (( static_ips(3) ))
 
   - name: loggregator_trafficcontroller_z2
     instances: 1
     networks:
       - name: cf2
-        static_ips: (( static_ips(2) ))
+        static_ips: (( static_ips(3) ))
 
   # set up static IP for loggregator
   - name: loggregator_z1
     instances: 2
     networks:
       - name: cf1
-        static_ips: (( static_ips(3, 4) ))
+        static_ips: (( static_ips(4, 5) ))
 
       # set up static IP for loggregator
   - name: loggregator_z2
     instances: 2
     networks:
       - name: cf2
-        static_ips: (( static_ips(3, 4) ))
+        static_ips: (( static_ips(4, 5) ))
 
   # only need one router, and set up static IPs
   - name: router_z1
     instances: 1
     networks:
       - name: cf1
-        static_ips: (( static_ips(5) ))
+        static_ips: (( static_ips(6) ))
   - name: router_z2
     instances: 0
     networks:
       - name: cf2
-        static_ips: (( static_ips(5) ))
+        static_ips: (( static_ips(6) ))
 
   # only need one runner
   #
@@ -204,7 +209,7 @@ jobs:
     instances: 1
     networks:
     - name: cf1
-      static_ips: (( static_ips(6) ))
+      static_ips: (( static_ips(7) ))
   - name: runner_z2
     instances: 0
 
@@ -213,7 +218,7 @@ jobs:
     instances: 1
     networks:
     - name: cf1
-      static_ips: (( static_ips(7) ))
+      static_ips: (( static_ips(8) ))
 
   # only need one taskmaster
   - name: taskmaster_z1
@@ -240,13 +245,13 @@ jobs:
     persistent_disk: 4096
     networks:
       - name: cf1
-        static_ips: (( static_ips(0) ))
+        static_ips: (( static_ips(1) ))
   - name: logs_z2
     instances: 1
     persistent_disk: 4096
     networks:
       - name: cf2
-        static_ips: (( static_ips(0) ))
+        static_ips: (( static_ips(1) ))
 
   # no collector
   - name: stats_z1
@@ -261,6 +266,10 @@ compilation:
 
 
 resource_pools:
+  - name: ha_proxy_z1
+    cloud_properties:
+      name: random
+
   - name: small_z1
     cloud_properties:
       name: random
@@ -413,6 +422,7 @@ networks:
     - 10.244.0.22
     - 10.244.0.26
     - 10.244.0.30
+    - 10.244.0.34
 - name: cf2
   subnets:
   - cloud_properties:

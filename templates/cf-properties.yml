@@ -2,7 +2,7 @@ properties:
   domain: (( merge ))
 
   cc:
-    srv_api_uri: (( "https://api." domain ))
+    srv_api_uri: (( "http://api." domain ))
 
     bulk_api_password: (( merge ))
 
@@ -47,17 +47,17 @@ properties:
   login:
     catalina_opts: (( merge ))
 
-    protocol: https
+    protocol: http
 
     links:
-      home: (( "https://console." domain ))
-      passwd: (( "https://console." domain "/password_resets/new" ))
-      signup: (( "https://console." domain "/register" ))
+      home: (( "http://console." domain ))
+      passwd: (( "http://console." domain "/password_resets/new" ))
+      signup: (( "http://console." domain "/register" ))
 
   uaa:
     catalina_opts: (( merge ))
 
-    url: (( "https://uaa." domain ))
+    url: (( "http://uaa." domain ))
 
     no_ssl: false
 
@@ -85,7 +85,7 @@ properties:
         authorities: oauth.login
         secret: (( merge ))
         authorized-grant-types: authorization_code,client_credentials,refresh_token
-        redirect-uri: (( "https://login." domain ))
+        redirect-uri: (( "http://login." domain ))
       portal:
         override: true
         scope: openid,cloud_controller.read,cloud_controller.write,password.write,console.admin,console.support
