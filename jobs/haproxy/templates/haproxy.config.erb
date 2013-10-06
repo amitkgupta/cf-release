@@ -10,9 +10,9 @@ defaults
 
 frontend http-in 
 	bind :80
-	default_backend http-servers
+	default_backend http-routers
 
-backend http-router
+backend http-routers
 	mode tcp
 	balance roundrobin
         server node0 10.244.0.22:80 check inter 5000
